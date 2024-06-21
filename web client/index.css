@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+}
+
+.iframe {
+  border: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  width: 100%;
+}
+
+.iframe__navbar {
+  height: 7.2vh;
+}
+
+.iframe__travel {
+  height: 40vh;
+}
+
+.iframe__footer {
+  height: 3vh;
+}
