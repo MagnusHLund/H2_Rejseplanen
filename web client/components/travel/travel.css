@@ -35,3 +35,18 @@ body {
 .travel__container--details--stations {
   display: flex;
 }
+
+.travel__container--details--stations--from {
+  border-bottom: 1px solid #666e7f;
+  height: 10vh;
+  vertical-align: middle;
+
+  img {
+    height: 10vh;
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+  }
+}
