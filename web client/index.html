@@ -9,6 +9,7 @@
     <link href="./css/travel.css" rel="stylesheet" type="text/css" />
     <link href="./css/footer.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body id="body">
     <navbar class="navbar">
@@ -40,7 +41,7 @@
                 src="./images/location indicators/LocationA.svg"
                 alt="Starting location icon"
               />
-              <input type="text" placeholder="Fra" />
+              <input type="text" placeholder="Fra" id="from" />
               <button>
                 <img
                   src="./images/GetLocation.svg"
@@ -53,7 +54,7 @@
                 src="./images/location indicators/LocationB.svg"
                 alt="Destination icon"
               />
-              <input type="text" placeholder="Til" />
+              <input type="text" placeholder="Til" id="to" />
               <button>
                 <img
                   src="./images/Switch.svg"
@@ -65,7 +66,7 @@
           <div>
             <div class="calendar__container">
               <button class="calendar__button">
-                Afgang i dag xx:xx
+                <p>Afgang i dag xx:xx</p>
                 <img
                   src="./images/arrows/GrayArrowDownwards.svg"
                   alt="gray arrow pointing downwards"
@@ -74,11 +75,12 @@
               </button>
             </div>
           </div>
-          <div>
-            <button class="find__button">Find</button>
+          <div class="find__container">
+            <button class="find__button" onclick="newSearch()">Find</button>
           </div>
         </div>
       </div>
+      <div id="journeys"></div>
     </div>
   </body>
   <footer class="footer">
@@ -121,5 +123,5 @@
   </footer>
 </html>
 
-<script src="./js/footer.js"></script>
+<script src="./js/journey.js"></script>
 <script src="./index.js"></script>

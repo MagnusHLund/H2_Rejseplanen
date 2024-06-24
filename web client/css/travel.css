@@ -6,7 +6,7 @@ body {
 .travel {
   background-image: url('./../images/background/Background.jpg');
   background-position: center 0;
-  height: 50vh;
+  min-height: 50vh;
   display: grid;
   box-sizing: border-box;
   position: relative;
@@ -29,7 +29,7 @@ body {
 
 .travel__container--details {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 
 .travel__container--details--stations {
@@ -90,6 +90,12 @@ body {
   color: white;
   display: flex;
   justify-content: space-between;
+  text-align: center;
+
+  img {
+    width: 2vw;
+    margin-left: 1vw;
+  }
 }
 
 .calendar__container {
@@ -102,9 +108,15 @@ body {
 
 .find__button {
   color: #000d2a;
-  font-weight: bolder;
+  font-weight: 750;
+  font-size: medium;
   background-color: #eaba2a;
   border: none;
   border-radius: 5%;
-  padding: 40%;
+  height: 5vh;
+  width: 5vw;
+}
+
+.find__container {
+  margin-top: auto;
 }
