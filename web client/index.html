@@ -4,29 +4,122 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rejseplanen</title>
-    <link href="./index.css" rel="stylesheet" type="text/css" />
+    <link href="./css/index.css" rel="stylesheet" type="text/css" />
+    <link href="./css/navbar.css" rel="stylesheet" type="text/css" />
+    <link href="./css/travel.css" rel="stylesheet" type="text/css" />
+    <link href="./css/footer.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
   </head>
   <body id="body">
-    <iframe
-      title="navbar"
-      class="iframe iframe__navbar"
-      src="./components/Navbar/navbar.html"
-      scrolling="no"
-    ></iframe>
-    <iframe
-      title="navbar"
-      class="iframe iframe__travel"
-      src="./components/travel/travel.html"
-      scrolling="no"
-    ></iframe>
-    <iframe
-      title="navbar"
-      class="iframe iframe__footer"
-      src="./components/Footer/footer.html"
-      scrolling="no"
-    ></iframe>
+    <navbar class="navbar">
+      <img
+        src="./images/background/RejseplanenLogo.svg"
+        alt="The Rejseplanen logo"
+        class="navbar__logo"
+      />
+      <div class="navbar__links">
+        <a class="navbar__link">Find en rejse</a>
+        <a class="navbar__link">Afgangstavler</a>
+      </div>
+      <select class="navbar__dropdown">
+        <option>Dansk</option>
+        <option>English</option>
+        <option>Deutsch</option>
+      </select>
+    </navbar>
+
+    <div class="travel">
+      <div class="travel__container">
+        <div>
+          <h2 class="travel__container--country">Rejs: i Danmark</h2>
+        </div>
+        <div class="travel__container--details">
+          <div class="travel__container--details--stations">
+            <div class="travel__container--details--stations--from">
+              <img
+                src="./images/location indicators/LocationA.svg"
+                alt="Starting location icon"
+              />
+              <input type="text" placeholder="Fra" />
+              <button>
+                <img
+                  src="./images/GetLocation.svg"
+                  alt="Get your current location"
+                />
+              </button>
+            </div>
+            <div class="travel__container--details--stations--to">
+              <img
+                src="./images/location indicators/LocationB.svg"
+                alt="Destination icon"
+              />
+              <input type="text" placeholder="Til" />
+              <button>
+                <img
+                  src="./images/Switch.svg"
+                  alt="Switch starting location and Destination"
+                />
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="calendar__container">
+              <button class="calendar__button">
+                Afgang i dag xx:xx
+                <img
+                  src="./images/arrows/GrayArrowDownwards.svg"
+                  alt="gray arrow pointing downwards"
+                  class="calendar__button--image"
+                />
+              </button>
+            </div>
+          </div>
+          <div>
+            <button class="find__button">Find</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
+  <footer class="footer">
+    <a
+      href="https://help.rejseplanen.dk/hc/en-us/categories/201611989"
+      target="_blank"
+      class="footer__link"
+      >Hjælp</a
+    >
+    <a
+      href="https://help.rejseplanen.dk/hc/en-us/categories/201733769"
+      target="_blank"
+      class="footer__link"
+      >Om</a
+    >
+    <a
+      href="https://help.rejseplanen.dk/hc/en-us/categories/201728005"
+      target="_blank"
+      class="footer__link"
+      >Labs</a
+    >
+    <a
+      href="https://help.rejseplanen.dk/hc/en-us/sections/203204785"
+      target="_blank"
+      class="footer__link"
+      >Erhverv</a
+    >
+    <a
+      href="https://help.rejseplanen.dk/hc/en-us/articles/214318725-Privacy-and-cookie-policy"
+      target="_blank"
+      class="footer__link"
+      >Privatliv & cookies</a
+    >
+    <a
+      href="https://www.was.digst.dk/rejseplanen-dk"
+      target="_blank"
+      class="footer__link"
+      >tilgængelighedserklæring</a
+    >
+  </footer>
 </html>
 
+<script src="./js/footer.js"></script>
 <script src="./index.js"></script>

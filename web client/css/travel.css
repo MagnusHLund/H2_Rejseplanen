@@ -1,0 +1,110 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.travel {
+  background-image: url('./../images/background/Background.jpg');
+  background-position: center 0;
+  height: 50vh;
+  display: grid;
+  box-sizing: border-box;
+  position: relative;
+  background-size: 140%;
+}
+
+.travel__container {
+  width: 76.5%;
+  background-color: #000d2a;
+  place-self: center;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5%;
+}
+
+.travel__container--country {
+  color: #eaba2a;
+  font-weight: normal;
+}
+
+.travel__container--details {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.travel__container--details--stations {
+  display: flex;
+  flex-direction: column;
+}
+
+.travel__container--details--stations--from {
+  border-bottom: 1px solid #666e7f;
+  height: 6vh;
+  vertical-align: middle;
+  display: flex;
+  margin-bottom: 1vh;
+
+  * {
+    height: 5vh;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: white;
+  }
+}
+
+.travel__container--details--stations--to {
+  border-bottom: 1px solid #666e7f;
+  height: 6vh;
+  vertical-align: middle;
+  display: flex;
+
+  * {
+    height: 5vh;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: white;
+  }
+}
+
+.calendar__button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.calendar__container {
+  border-bottom: 1px solid #666e7f;
+
+  * {
+    height: 5vh;
+  }
+}
+
+.find__button {
+  color: #000d2a;
+  font-weight: bolder;
+  background-color: #eaba2a;
+  border: none;
+  border-radius: 5%;
+  padding: 40%;
+}
