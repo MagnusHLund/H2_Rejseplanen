@@ -1,56 +1,77 @@
-const originInput = document.getElementById('from')
-const destinationInput = document.getElementById('to')
-const date = document.getElementById('date')
+const originInput = document.getElementById('from-input')
+const destinationInput = document.getElementById('to-input')
+const date = document.getElementById('date-input')
 
-function displayJourney(journey) {
-  let vehicleOverview = []
-
-  journey.forEach((vehicle) => {
-    vehicleOverview = [...vehicleOverview, formatJourney(vehicle)]
-  })
+async function displayJourney(journey) {
+  const transportOverview = journey.map(formatJourney)
 
   const parent = document.getElementById('journeys')
-  const journeyDiv = $(`<div class='journey'>`)
-  let g = []
-  vehicleOverview.forEach((vehicle) => {
-    g = [
-      ...g,
-      `<div class='vehicle'><div class='top'><p>${vehicle.origin.time}</p><p>${
-        vehicle.origin.name
-      }</p><p>${vehicle.origin.track}</p></div class="type ${
-        vehicle.type
-      }"><div><h4>${'time'}</h4></div><div class='bottom'><p>${
-        vehicle.destination.time
-      }</p><p>${vehicle.destination.name}</p><p>${
-        vehicle.destination.track
-      }</p></div></>`,
-    ]
+  const journeyDiv = $('<div class="journey">')
+  $(parent).append(journeyDiv)
+  const formattedTransports = transportOverview.map((transport) => {
+    const travelTime = calculateTransportTime(
+      transport.origin.time,
+      transport.destination.time
+    )
+
+    if (!travelTime) {
+      return ''
+    }
+
+    return `
+    <div class="transport">
+      <div class="top">
+        <p>${transport.origin.time}</p>
+        <p>${transport.origin.name}</p>
+        <p>${
+          transport.origin.track ? `spor ${transport.origin.track}` : ' '
+        }</p>
+      </div>
+      <div class='type-container'>
+        <div class="type ${transport.type.toLowerCase()}"></div>
+        <h4>${transport.type}</h4>
+        <h4>${travelTime}</h4>
+      </div>
+      <div class="bottom">
+        <p>${transport.destination.time}</p>
+        <p>${transport.destination.name}</p>
+        <p>${
+          transport.destination.track
+            ? `spor ${transport.destination.track}`
+            : ' '
+        }</p>
+      </div>
+    </div>
+  `
   })
 
-  $(parent).append(journeyDiv)
-  g.forEach((element) => {
-    console.log(element)
-    $(journeyDiv).append(element)
+  formattedTransports.forEach((transport) => {
+    console.log(transport)
+    $(journeyDiv).append(transport)
   })
 }
 
 async function newSearch() {
+  removePreviousSearch()
+
   const origin = originInput.value
   const destination = destinationInput.value
   const departure = date.value
 
-  if (origin == '' || destination == '' || departure == '') {
+  if (!isValidInput([origin, destination, departure])) {
     return
   }
 
   const originDetails = await getLocationDetails(origin)
   const destinationDetails = await getLocationDetails(destination)
 
-  const fetchedDetails = await fetch(
-    `https://xmlopen.rejseplanen.dk/bin/rest.exe/trip?originId=${originDetails.id}&destCoordX=${destinationDetails.x}&destCoordY=${destinationDetails.y}&destCoordName=${destinationDetails.name}&date=24.06.24&time=07:02&format=json`
-  )
+  const timeObject = formatTime(departure)
+  const formattedDate = `${timeObject.day}.${timeObject.month}.${timeObject.year}`
+  const formattedTime = `${timeObject.hour}:${timeObject.minute}`
 
-  const fetchedDetailsJson = await fetchedDetails.json()
+  const fetchedDetailsJson = await callApi(
+    `https://xmlopen.rejseplanen.dk/bin/rest.exe/trip?originId=${originDetails.id}&destCoordX=${destinationDetails.x}&destCoordY=${destinationDetails.y}&destCoordName=${destinationDetails.name}&date=${formattedDate}&time=${formattedTime}&format=json`
+  )
 
   const formattedJourneys = fetchedDetailsJson.TripList.Trip
 
@@ -60,39 +81,126 @@ async function newSearch() {
 }
 
 async function getLocationDetails(searchInput) {
-  const fetchedDetails = await fetch(
+  const fetchedDetailsJson = await callApi(
     `https://xmlopen.rejseplanen.dk/bin/rest.exe/location?input=${searchInput}&format=json`
   )
 
-  const fetchedDetailsJson = await fetchedDetails.json()
-
-  let locationDetails = { name: '', id: 0, x: 0, y: 0 }
   const firstLocation = fetchedDetailsJson.LocationList.StopLocation[0]
 
-  locationDetails.name = firstLocation.name
-  locationDetails.id = firstLocation.id
-  locationDetails.x = firstLocation.x
-  locationDetails.y = firstLocation.y
-
-  return locationDetails
+  return {
+    name: firstLocation.name,
+    id: firstLocation.id,
+    x: firstLocation.x,
+    y: firstLocation.y,
+  }
 }
 
-function formatJourney(vehicle) {
-  let formattedJourney = {
-    type: '',
-    origin: { name: '', time: '', track: '' },
-    destination: { name: '', time: '', track: '' },
+function formatJourney(transport) {
+  return {
+    type: transport.type,
+    origin: {
+      name: transport.Origin.name,
+      time: transport.Origin.time,
+      track: transport.Origin.track ?? '',
+    },
+    destination: {
+      name: transport.Destination.name,
+      time: transport.Destination.time,
+      track: transport.Destination.track ?? '',
+    },
+  }
+}
+
+function isValidInput(inputs) {
+  return inputs.every((input) => input !== '')
+}
+
+function formatTime(dateInput) {
+  const [datePart, timePart] = dateInput.split('T')
+  const [year, month, day] = datePart.split('-')
+  const [hours, minutes] = timePart.split(':')
+
+  const timeObject = {
+    year,
+    month,
+    day,
+    hour: hours,
+    minute: minutes,
   }
 
-  formattedJourney.type = vehicle.type
+  return timeObject
+}
 
-  formattedJourney.origin.name = vehicle.Origin.name
-  formattedJourney.origin.time = vehicle.Origin.time
-  formattedJourney.origin.track = vehicle.Origin.track
+function removePreviousSearch() {
+  $('#journeys').empty()
+}
 
-  formattedJourney.destination.name = vehicle.Destination.name
-  formattedJourney.destination.time = vehicle.Destination.time
-  formattedJourney.destination.track = vehicle.Destination.track
+function calculateTransportTime(originTime, destinationTime) {
+  const [originHours, originMinutes] = originTime.split(':').map(Number)
+  const [destHours, destMinutes] = destinationTime.split(':').map(Number)
 
-  return formattedJourney
+  const originMinutesTotal = originHours * 60 + originMinutes
+  const destMinutesTotal = destHours * 60 + destMinutes
+  const travelMinutes = Math.abs(destMinutesTotal - originMinutesTotal)
+
+  if (travelMinutes <= 1) {
+    return null
+  } else if (travelMinutes < 60) {
+    return `${travelMinutes} minutes`
+  } else {
+    const travelHours = Math.floor(travelMinutes / 60)
+    const leftoverMinutes = travelMinutes % 60
+    return `${travelHours} hour${
+      travelHours > 1 ? 's' : ''
+    } and ${leftoverMinutes} minutes`
+  }
+}
+
+async function suggestLocations(event) {
+  removeSuggestions()
+  const value = event.target.value
+
+  const response = await callApi(
+    `https://xmlopen.rejseplanen.dk/bin/rest.exe/location?input=${value}&format=json`
+  )
+
+  const formattedResponse = response.LocationList.StopLocation
+
+  const itemsToDisplayLimit = 5
+
+  const inputId = event.target.id
+  let suggestionsContainer = ''
+
+  switch (inputId) {
+    case 'from-input':
+      suggestionsContainer = document.getElementById('from-suggestions')
+      break
+    case 'to-input':
+      suggestionsContainer = document.getElementById('to-suggestions')
+      break
+  }
+
+  for (let i = 0; i < itemsToDisplayLimit; i++) {
+    const suggestion = formattedResponse[i].name
+    const suggestedItem = document.createElement('li')
+    suggestedItem.classList.add('suggestion')
+    suggestedItem.textContent = suggestion
+
+    suggestedItem.addEventListener('click', () => {
+      event.target.value = suggestion
+      removeSuggestions()
+    })
+
+    suggestionsContainer.appendChild(suggestedItem)
+  }
+}
+
+async function callApi(url) {
+  const response = await fetch(url)
+  return await response.json()
+}
+
+function removeSuggestions() {
+  $('#to-suggestions').empty()
+  $('#from-suggestions').empty()
 }

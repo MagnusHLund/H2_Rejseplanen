@@ -11,8 +11,8 @@ body {
 }
 
 .navbar__logo {
-  height: 10vh;
   margin-left: 7.5%;
+  width: 20%;
 }
 
 .navbar__link {
@@ -20,9 +20,10 @@ body {
   background-color: transparent;
   color: #001544;
   cursor: pointer;
-  font-size: 150%;
+  font-size: 100%;
   margin: auto 0;
   padding: 2% 0;
+  width: fit-content;
 }
 
 .navbar__links {

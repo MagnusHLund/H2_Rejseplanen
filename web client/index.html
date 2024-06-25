@@ -8,7 +8,7 @@
     <link href="./css/navbar.css" rel="stylesheet" type="text/css" />
     <link href="./css/travel.css" rel="stylesheet" type="text/css" />
     <link href="./css/footer.css" rel="stylesheet" type="text/css" />
-    <link href="./css/vehicle.css" rel="stylesheet" type="text/css" />
+    <link href="./css/transportation.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
@@ -42,7 +42,12 @@
                 src="./images/location indicators/LocationA.svg"
                 alt="Starting location icon"
               />
-              <input type="text" placeholder="Fra" id="from" />
+              <input
+                type="text"
+                placeholder="Fra"
+                id="from-input"
+                onkeyup="suggestLocations(event)"
+              />
               <button>
                 <img
                   src="./images/GetLocation.svg"
@@ -50,12 +55,21 @@
                 />
               </button>
             </div>
+            <ul
+              class="travel__container--details--stations--from--sugestions"
+              id="from-suggestions"
+            ></ul>
             <div class="travel__container--details--stations--to">
               <img
                 src="./images/location indicators/LocationB.svg"
                 alt="Destination icon"
               />
-              <input type="text" placeholder="Til" id="to" />
+              <input
+                type="text"
+                placeholder="Til"
+                id="to-input"
+                onkeyup="suggestLocations(event)"
+              />
               <button>
                 <img
                   src="./images/Switch.svg"
@@ -63,10 +77,19 @@
                 />
               </button>
             </div>
+            <ul
+              class="travel__container--details--stations--to--sugestions"
+              id="to-suggestions"
+            ></ul>
           </div>
           <div>
             <div class="calendar__container">
-              <input type="datetime-local" id="date" class="calendar__date" />
+              <input
+                type="datetime-local"
+                id="date-input"
+                class="calendar__date"
+                value="01.01.2000T00:00:00"
+              />
             </div>
           </div>
           <div class="find__container">
@@ -118,4 +141,3 @@
 </html>
 
 <script src="./js/journey.js"></script>
-<script src="./index.js"></script>
