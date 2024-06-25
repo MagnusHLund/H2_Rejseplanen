@@ -8,6 +8,7 @@
     <link href="./css/navbar.css" rel="stylesheet" type="text/css" />
     <link href="./css/travel.css" rel="stylesheet" type="text/css" />
     <link href="./css/footer.css" rel="stylesheet" type="text/css" />
+    <link href="./css/vehicle.css" rel="stylesheet" type="text/css" />
     <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
@@ -65,14 +66,7 @@
           </div>
           <div>
             <div class="calendar__container">
-              <button class="calendar__button">
-                <p>Afgang i dag xx:xx</p>
-                <img
-                  src="./images/arrows/GrayArrowDownwards.svg"
-                  alt="gray arrow pointing downwards"
-                  class="calendar__button--image"
-                />
-              </button>
+              <input type="datetime-local" id="date" class="calendar__date" />
             </div>
           </div>
           <div class="find__container">

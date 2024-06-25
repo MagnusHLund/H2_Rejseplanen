@@ -7,6 +7,8 @@ body {
   background-image: url('./../images/background/Background.jpg');
   background-position: center 0;
   min-height: 50vh;
+  background-repeat: no-repeat;
+  background-color: #e3e3e3;
   display: grid;
   box-sizing: border-box;
   position: relative;
@@ -20,6 +22,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 2.5%;
+  margin-top: 5vh;
 }
 
 .travel__container--country {
@@ -84,22 +87,22 @@ body {
   }
 }
 
-.calendar__button {
+.calendar__date {
   background-color: transparent;
   border: none;
   color: white;
   display: flex;
   justify-content: space-between;
-  text-align: center;
+  margin-bottom: 1vh;
+}
 
-  img {
-    width: 2vw;
-    margin-left: 1vw;
-  }
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  background-image: url(./../images/arrows/GrayArrowDownwards.svg);
 }
 
 .calendar__container {
   border-bottom: 1px solid #666e7f;
+  display: flex;
 
   * {
     height: 5vh;

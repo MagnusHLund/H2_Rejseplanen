@@ -1,5 +1,6 @@
 const originInput = document.getElementById('from')
 const destinationInput = document.getElementById('to')
+const date = document.getElementById('date')
 
 function displayJourney(journey) {
   let vehicleOverview = []
@@ -9,14 +10,38 @@ function displayJourney(journey) {
   })
 
   const parent = document.getElementById('journeys')
-  const journeyDiv = `<div><p>xx:xx</p><div></div><p>xx:xx</p></div>`
+  const journeyDiv = $(`<div class='journey'>`)
+  let g = []
+  vehicleOverview.forEach((vehicle) => {
+    g = [
+      ...g,
+      `<div class='vehicle'><div class='top'><p>${vehicle.origin.time}</p><p>${
+        vehicle.origin.name
+      }</p><p>${vehicle.origin.track}</p></div class="type ${
+        vehicle.type
+      }"><div><h4>${'time'}</h4></div><div class='bottom'><p>${
+        vehicle.destination.time
+      }</p><p>${vehicle.destination.name}</p><p>${
+        vehicle.destination.track
+      }</p></div></>`,
+    ]
+  })
 
   $(parent).append(journeyDiv)
+  g.forEach((element) => {
+    console.log(element)
+    $(journeyDiv).append(element)
+  })
 }
 
 async function newSearch() {
   const origin = originInput.value
   const destination = destinationInput.value
+  const departure = date.value
+
+  if (origin == '' || destination == '' || departure == '') {
+    return
+  }
 
   const originDetails = await getLocationDetails(origin)
   const destinationDetails = await getLocationDetails(destination)
@@ -29,10 +54,8 @@ async function newSearch() {
 
   const formattedJourneys = fetchedDetailsJson.TripList.Trip
 
-  console.log(fetchedDetailsJson)
-
   formattedJourneys.forEach((journey) => {
-    displayJourney(journey)
+    displayJourney(journey.Leg)
   })
 }
 
@@ -58,7 +81,7 @@ function formatJourney(vehicle) {
   let formattedJourney = {
     type: '',
     origin: { name: '', time: '', track: '' },
-    departure: { name: '', time: '', track: '' },
+    destination: { name: '', time: '', track: '' },
   }
 
   formattedJourney.type = vehicle.type
@@ -67,9 +90,9 @@ function formatJourney(vehicle) {
   formattedJourney.origin.time = vehicle.Origin.time
   formattedJourney.origin.track = vehicle.Origin.track
 
-  formattedJourney.departure.name = vehicle.departure.name
-  formattedJourney.departure.time = vehicle.departure.time
-  formattedJourney.departure.track = vehicle.departure.track
+  formattedJourney.destination.name = vehicle.Destination.name
+  formattedJourney.destination.time = vehicle.Destination.time
+  formattedJourney.destination.track = vehicle.Destination.track
 
   return formattedJourney
 }

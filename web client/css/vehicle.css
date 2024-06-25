@@ -1,0 +1,23 @@
+#journeys {
+  background-color: aquamarine;
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.journey {
+  background-color: blanchedalmond;
+}
+
+.vehicle {
+}
+
+.type {
+}
+
+.top {
+  display: flex;
+}
+
+.bottom {
+  display: flex;
+}
