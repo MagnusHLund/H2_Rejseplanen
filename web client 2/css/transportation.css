@@ -1,0 +1,107 @@
+.journeys {
+  padding-top: 10vh;
+}
+
+.journey {
+  background-color: blanchedalmond;
+  border-radius: 5%;
+  border: 1px solid black;
+  margin: 3vh 2vw;
+  width: 30vw;
+}
+
+.transport {
+  padding: 10px;
+}
+
+.type {
+  width: 1%;
+  margin: 0 5%;
+}
+
+.top,
+.bottom {
+  display: flex;
+
+  * {
+    width: 33.3%;
+  }
+
+  :nth-child(2) {
+    text-align: center;
+  }
+  :nth-child(3) {
+    text-align: right;
+  }
+}
+
+.transport:not(:first-child) {
+  border-top: 1px solid black;
+}
+
+.type-container {
+  display: flex;
+
+  * {
+  }
+  :nth-child(2) {
+    width: 100%;
+  }
+
+  :nth-child(3) {
+    width: 100%;
+    text-align: right;
+  }
+}
+
+/* Different colors for each transportation type, as can be seen on page 36 in the documentation. https://help.rejseplanen.dk/hc/article_attachments/115002672369 */
+
+.type.ic {
+  background-color: red;
+}
+
+.type.reg {
+  background-color: green;
+}
+
+.type.walk,
+.type.bike,
+.type.car {
+  background-color: black;
+}
+
+.type.m {
+  background-color: chocolate;
+}
+
+.type.s {
+  background-color: blueviolet;
+}
+
+.type.tog {
+  background-color: brown;
+}
+
+.type.bus {
+  background-color: lightblue;
+}
+
+.type.exb {
+  background-color: lightblue;
+}
+
+.type.nb {
+  background-color: lightcyan;
+}
+
+.type.f {
+  background-color: blue;
+}
+
+.type.lyn {
+  background-color: yellow;
+}
+
+.type.tb {
+  background-color: darkcyan;
+}

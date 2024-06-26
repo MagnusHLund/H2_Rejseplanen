@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rejseplanen</title>
+    <link href="./css/index.css" rel="stylesheet" type="text/css" />
+    <link href="./css/navbar.css" rel="stylesheet" type="text/css" />
+    <link href="./css/travel.css" rel="stylesheet" type="text/css" />
+    <link href="./css/transportation.css" rel="stylesheet" type="text/css" />
+    <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  </head>
+  <body id="body">
+    <nav class="navbar">
+      <img
+        src="./images/background/RejseplanenLogo.svg"
+        alt="The Rejseplanen logo"
+        class="navbar__logo"
+      />
+      <div class="navbar__links">
+        <a class="navbar__link">Find en rejse</a>
+        <a class="navbar__link">Afgangstavler</a>
+      </div>
+      <select class="navbar__dropdown">
+        <option>Dansk</option>
+        <option>English</option>
+        <option>Deutsch</option>
+      </select>
+    </nav>
+    <section class="input__section">
+      <div class="input__container--parent">
+        <div class="input__container--child">
+          <img
+            src="./images/location indicators/LocationA.svg"
+            class="input__image--origin"
+            alt="indicator its the starting point of the journey"
+          />
+          <div><input class="input__field" />
+            <div class="input__suggestion"></div>
+          </div>
+        </div>
+        <div class="input__container--child">
+          <img
+            src="./images/location indicators/LocationB.svg"
+            class="input__image--destination"
+            alt="indicator that it is the destination of the journey"
+          />
+          <div>
+            <input class="input__field" />
+            <div class="input__suggestion"></div>
+        </div>
+      </div>
+    </section>
+    <section class="journey__section">
+      <div class="journey__container"></div>
+    </section>
+  </body>
+</html>
+
+<script src="./js/journey.js"></script>

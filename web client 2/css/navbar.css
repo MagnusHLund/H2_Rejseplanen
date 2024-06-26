@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+
+.navbar {
+  display: flex;
+  width: 100vw;
+  height: 10vh;
+  justify-content: space-between;
+}
+
+.navbar__logo {
+  margin-left: 7.5%;
+  width: 20%;
+}
+
+.navbar__link {
+  border: 0;
+  background-color: transparent;
+  color: #001544;
+  cursor: pointer;
+  font-size: 100%;
+  margin: auto 0;
+  padding: 2% 0;
+  width: fit-content;
+}
+
+.navbar__links {
+  width: 40%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.navbar__dropdown {
+  margin-right: 7.5%;
+}

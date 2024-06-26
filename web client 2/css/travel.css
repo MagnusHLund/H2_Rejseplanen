@@ -1,0 +1,43 @@
+.input__section {
+  border: 0.1vh solid black;
+  border-left: none;
+  border-right: none;
+  margin: 0 2vw;
+  display: grid;
+}
+
+.input__container--parent {
+  display: flex;
+  justify-content: space-evenly;
+  height: 15vh;
+  margin: 1%;
+  border: 0.1vh solid black;
+  border-radius: 15px;
+  width: 75%;
+  place-self: center;
+}
+
+.input__container--child {
+  transform: translateY(100%);
+  display: flex;
+  height: 30%;
+}
+
+.input__field {
+}
+
+.input__image--destination,
+.input__image--origin {
+}
+
+@media only screen and (max-width: 650px) {
+  .input__container--parent {
+    flex-direction: column;
+    height: 20vh;
+  }
+
+  .input__container--child {
+    height: 10vh;
+    justify-content: center;
+  }
+}
