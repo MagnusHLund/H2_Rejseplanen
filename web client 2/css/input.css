@@ -1,3 +1,5 @@
+/* input.css */
+
 .input__section {
   border: 0.1vh solid black;
   border-left: none;
@@ -72,8 +74,20 @@
   border: none;
 }
 
-.input__suggestions > li {
+.input__field:not(:focus) + .input__suggestions {
+  display: none;
+}
+
+.suggestion {
   list-style-type: none;
+}
+
+.suggestion:hover {
+  background-color: #bebebe;
+}
+
+.suggestion:not(:last-child) {
+  border-bottom: 1px solid #eaba2a;
 }
 
 .input__placeholder {
@@ -109,16 +123,4 @@
       width: 35%;
     }
   }
-}
-
-.journey__container {
-  background-color: #e3e3e3;
-  height: fit-content;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  border: 1px solid black;
-  border-top: none;
-  margin: 0 auto;
-  width: 96%;
-  display: flex;
 }

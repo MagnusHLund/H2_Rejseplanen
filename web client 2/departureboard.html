@@ -8,7 +8,11 @@
     <link href="./css/navbar.css" rel="stylesheet" type="text/css" />
     <link href="./css/input.css" rel="stylesheet" type="text/css" />
     <link href="./css/journey.css" rel="stylesheet" type="text/css" />
-    <link rel="icon" type="image/x-icon" href="./images/Favicon/icon.png" />
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="./images/background/rejseplanen.png"
+    />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </head>
   <body id="body">
@@ -19,14 +23,11 @@
         class="navbar__logo"
       />
       <div class="navbar__links">
-        <a
-          class="navbar__link active"
-          data-i18n="find a journey"
-          href="./trip.html"
+        <a class="navbar__link" data-i18n="find a journey" href="./trip.html"
           >Find en rejse</a
         >
         <a
-          class="navbar__link"
+          class="navbar__link active"
           data-i18n="departure board"
           href="./departureboard.html"
           >Afgangstavler</a
@@ -62,26 +63,6 @@
         </div>
         <div class="input__container--child">
           <img
-            src="./images/inputs/LocationB.svg"
-            class="input__image"
-            alt="indicator that it is the destination of the journey"
-          />
-          <div>
-            <p class="input__placeholder" data-i18n="to">Til</p>
-            <input
-              class="input__field"
-              id="destination-input"
-              autocomplete="off"
-              onkeyup="suggestLocations(event)"
-            />
-            <ul
-              class="input__suggestions"
-              id="destination--suggestions__container"
-            ></ul>
-          </div>
-        </div>
-        <div class="input__container--child">
-          <img
             src="./images/inputs/calendar.svg"
             class="input__image"
             alt="calendar and time"
@@ -103,7 +84,7 @@
           />
           <button
             class="input__field button"
-            onclick="newTripSearch()"
+            onclick="newDepartureBoardSearch()"
             data-i18n="search"
           >
             Søg

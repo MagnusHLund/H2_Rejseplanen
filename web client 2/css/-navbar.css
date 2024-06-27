@@ -25,10 +25,6 @@
   width: 40%;
   display: flex;
   justify-content: space-evenly;
-
-  .active {
-    color: #eaba2a;
-  }
 }
 
 .navbar__dropdown {

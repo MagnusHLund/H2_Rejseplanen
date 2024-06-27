@@ -1,3 +1,5 @@
+/* journey.css */
+
 .journey {
   background-color: #000d2a;
   border-radius: 15px;
@@ -47,16 +49,48 @@
   * {
   }
   :nth-child(2) {
-    width: 100%;
+    width: 50%;
+    align-self: center;
   }
 
   :nth-child(3) {
     width: 100%;
     text-align: right;
+    align-self: center;
   }
 }
 
-/* Different colors for each transportation type, as can be seen on page 36 in the documentation. https://help.rejseplanen.dk/hc/article_attachments/115002672369 */
+.departure .type {
+  width: 100%;
+  height: 1vh;
+  margin: 0;
+}
+
+.departure {
+  width: 15vw;
+  height: 5vh;
+  border: 0.25vh solid #eaba2a;
+  margin: 1vh 1vw;
+  background-color: #000d2a;
+  border-radius: 5px;
+
+  * {
+    color: white;
+  }
+}
+
+.departure__info {
+  display: flex;
+  justify-content: space-between;
+  margin: 1vh 0.5vw 0 0.5vw;
+}
+
+.transport__origin--name,
+.transport__destination--name {
+  font-weight: bold;
+}
+
+/* Different colors for all transportation types, page 36 in the documentation. https://help.rejseplanen.dk/hc/article_attachments/115002672369 */
 
 .type.ic {
   background-color: red;
@@ -106,4 +140,15 @@
 
 .type.tb {
   background-color: darkcyan;
+}
+
+.journey__container {
+  background-color: #e3e3e3;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: 1px solid black;
+  border-top: none;
+  margin: 0 auto;
+  width: 96%;
+  display: flex;
 }

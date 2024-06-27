@@ -1,0 +1,135 @@
+.input__section {
+  border: 0.1vh solid black;
+  border-left: none;
+  border-right: none;
+  margin: 0 2vw;
+  display: grid;
+
+  background-image: url('./../images/background/Background.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 125%;
+  background-color: #e3e3e3;
+}
+
+.input__container--parent {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  min-height: 15vh;
+  margin: 1%;
+  border: 0.25vh solid #eaba2a;
+  border-radius: 15px;
+  width: 75%;
+  place-self: center;
+  background-color: #000d2a;
+}
+
+.input__container--child {
+  margin: auto 0;
+  display: flex;
+  height: 20%;
+  min-width: 20%;
+  justify-content: center;
+  position: relative;
+}
+
+.input__container--child > div {
+  display: grid;
+}
+
+.input__field {
+  place-self: center;
+  padding: 0.1vh 0.1vw;
+  border-radius: 5px;
+  border: #eaba2a solid 0.25vh;
+  width: calc(100% - 1vw);
+  margin-left: 1vw;
+}
+
+.input__image {
+  height: 3vh;
+  place-self: center;
+}
+
+.input__suggestions {
+  position: absolute;
+  top: 100%;
+  left: 4vw;
+  border: 0.25vh solid #eaba2a;
+  background-color: white;
+  border-radius: 5px;
+  z-index: 1;
+  width: calc(100% - 4vw);
+
+  ::before {
+    content: '';
+    margin-right: 1vw;
+  }
+}
+
+.input__suggestions:empty {
+  border: none;
+}
+
+.input__field:not(:focus) + .input__suggestions {
+  display: none;
+}
+
+.suggestion {
+  list-style-type: none;
+}
+
+.suggestion:hover {
+  background-color: #bebebe;
+}
+
+.suggestion:not(:last-child) {
+  border-bottom: 1px solid #eaba2a;
+}
+
+.input__placeholder {
+  color: #eaba2a;
+  position: absolute;
+  margin-top: -2.5vh;
+  margin-left: 0.5vw;
+  border-radius: 5px;
+  padding: 4px;
+}
+
+.input__field.calendar::-webkit-calendar-picker-indicator {
+  background-image: url(./../images/inputs/GrayArrowDownwards.svg);
+}
+
+.input__field.button {
+  min-width: fit-content;
+  width: 50%;
+}
+
+@media only screen and (max-width: 1000px) {
+  .input__container--child {
+    width: 60%;
+    margin-top: 3vh;
+  }
+
+  .input__container--child:last-child {
+    margin-bottom: 3vh;
+  }
+
+  @media only screen and (min-width: 750px) {
+    .input__container--child {
+      width: 35%;
+    }
+  }
+}
+
+.journey__container {
+  background-color: #e3e3e3;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: 1px solid black;
+  border-top: none;
+  margin: 0 auto;
+  width: 96%;
+  display: flex;
+}

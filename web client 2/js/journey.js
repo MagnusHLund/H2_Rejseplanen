@@ -2,12 +2,29 @@ const originInput = document.getElementById('origin-input')
 const destinationInput = document.getElementById('destination-input')
 const date = document.getElementById('date-input')
 
+const journeyContainer = document.getElementById('journey__container')
+
+let apiCooldown
+
+function displayDepartureBoard(departure) {
+  const departureDiv = $('<div class="departures">')
+
+  const departureDetails = `<div class="departure"><div class="type ${departure.type.toLowerCase()}"></div><div class="departure__info"><p class="departure__name">${
+    departure.name
+  }</p><p>${departure.track ? `spor ${departure.track}` : ' '}</p><p>${
+    departure.time
+  }</p></div></div>`
+
+  $(journeyContainer).append(departureDiv)
+  $(departureDiv).append(departureDetails)
+}
+
 async function displayJourney(journey) {
   const transportOverview = journey.map(formatJourney)
 
-  const parent = document.getElementById('journey__container')
   const journeyDiv = $('<div class="journey">')
-  $(parent).append(journeyDiv)
+
+  $(journeyContainer).append(journeyDiv)
   const formattedTransports = transportOverview.map((transport) => {
     const travelTime = calculateTransportTime(
       transport.origin.time,
@@ -22,7 +39,7 @@ async function displayJourney(journey) {
     <div class="transport">
       <div class="top">
         <p>${transport.origin.time}</p>
-        <p>${transport.origin.name}</p>
+        <p class="transport__origin--name">${transport.origin.name}</p>
         <p>${
           transport.origin.track ? `spor ${transport.origin.track}` : ' '
         }</p>
@@ -34,7 +51,9 @@ async function displayJourney(journey) {
       </div>
       <div class="bottom">
         <p>${transport.destination.time}</p>
-        <p>${transport.destination.name}</p>
+        <p class="transport__destination--name">${
+          transport.destination.name
+        }</p>
         <p>${
           transport.destination.track
             ? `spor ${transport.destination.track}`
@@ -51,21 +70,53 @@ async function displayJourney(journey) {
   })
 }
 
-async function newSearch() {
+async function newDepartureBoardSearch() {
+  removePreviousSearch()
+  const origin = originInput.value
+  const departureTime = date.value
+
+  if (!isValidInput([origin, departureTime])) {
+    displayError()
+    return
+  }
+
+  const originDetails = await getLocationDetails(origin)
+
+  const timeObject = formatTime(departureTime)
+  const formattedDate = `${timeObject.day}.${timeObject.month}.${timeObject.year}`
+  const formattedTime = `${timeObject.hour}:${timeObject.minute}`
+
+  const fetchedDetailsJson = await callApi(
+    `https://xmlopen.rejseplanen.dk/bin/rest.exe/departureBoard?id=${originDetails.id}&date=${formattedDate}&time=${formattedTime}&format=json`
+  )
+
+  const formattedDepartures = fetchedDetailsJson.DepartureBoard.Departure
+
+  try {
+    formattedDepartures.forEach((departure) => {
+      displayDepartureBoard(departure)
+    })
+  } catch (error) {
+    displayError()
+  }
+}
+
+async function newTripSearch() {
   removePreviousSearch()
 
   const origin = originInput.value
   const destination = destinationInput.value
-  const departure = date.value
+  const departureTime = date.value
 
-  if (!isValidInput([origin, destination, departure])) {
+  if (!isValidInput([origin, destination, departureTime])) {
+    displayError()
     return
   }
 
   const originDetails = await getLocationDetails(origin)
   const destinationDetails = await getLocationDetails(destination)
 
-  const timeObject = formatTime(departure)
+  const timeObject = formatTime(departureTime)
   const formattedDate = `${timeObject.day}.${timeObject.month}.${timeObject.year}`
   const formattedTime = `${timeObject.hour}:${timeObject.minute}`
 
@@ -75,9 +126,13 @@ async function newSearch() {
 
   const formattedJourneys = fetchedDetailsJson.TripList.Trip
 
-  formattedJourneys.forEach((journey) => {
-    displayJourney(journey.Leg)
-  })
+  try {
+    formattedJourneys.forEach((journey) => {
+      displayJourney(journey.Leg)
+    })
+  } catch (error) {
+    displayError()
+  }
 }
 
 async function getLocationDetails(searchInput) {
@@ -160,56 +215,89 @@ async function suggestLocations(event) {
   removeSuggestions()
   const value = event.target.value
 
-  const response = await callApi(
-    `https://xmlopen.rejseplanen.dk/bin/rest.exe/location?input=${value}&format=json`
-  )
+  clearTimeout(apiCooldown)
+  apiCooldown = setTimeout(async () => {
+    const response = await callApi(
+      `https://xmlopen.rejseplanen.dk/bin/rest.exe/location?input=${value}&format=json`
+    )
 
-  let formattedResponse = response.LocationList.StopLocation
+    let formattedResponse = response.LocationList.StopLocation
 
-  // This is required because writing "sl" in an input field, returns only 1 location. This is not within an array.
-  if (!Array.isArray(formattedResponse)) {
-    formattedResponse = new Array(formattedResponse)
-  }
+    // This is required because writing "sl" in an input field, returns only 1 location. This is not within an array.
+    if (!Array.isArray(formattedResponse)) {
+      formattedResponse = new Array(formattedResponse)
+    }
 
-  const itemsToDisplayLimit = 5
+    const itemsToDisplayLimit = 5
 
-  const inputId = event.target.id
-  let suggestionsContainer = ''
+    const inputId = event.target.id
+    let suggestionsContainer = ''
 
-  switch (inputId) {
-    case originInput.id:
-      suggestionsContainer = document.getElementById(
-        'origin--suggestions__container'
-      )
-      break
-    case destinationInput.id:
-      suggestionsContainer = document.getElementById(
-        'destination--suggestions__container'
-      )
-      break
-  }
+    switch (inputId) {
+      case originInput.id:
+        suggestionsContainer = document.getElementById(
+          'origin--suggestions__container'
+        )
+        break
+      case destinationInput.id:
+        suggestionsContainer = document.getElementById(
+          'destination--suggestions__container'
+        )
+        break
+    }
 
-  for (let i = 0; i < itemsToDisplayLimit; i++) {
-    const suggestion = formattedResponse[i].name
-    const suggestedItem = document.createElement('li')
-    suggestedItem.classList.add('suggestion')
-    suggestedItem.textContent = suggestion
+    for (let i = 0; i < itemsToDisplayLimit; i++) {
+      const suggestion = formattedResponse[i].name
+      const suggestedItem = document.createElement('li')
+      suggestedItem.classList.add('suggestion')
+      suggestedItem.textContent = suggestion
 
-    suggestedItem.addEventListener('click', () => {
-      event.target.value = suggestion
-      removeSuggestions()
-    })
+      suggestedItem.addEventListener('mousedown', () => {
+        event.target.value = suggestion
+        removeSuggestions()
+      })
 
-    suggestionsContainer.appendChild(suggestedItem)
-  }
+      suggestionsContainer.appendChild(suggestedItem)
+    }
+  }, 300)
 }
 
 async function callApi(url) {
-  const response = await fetch(url)
-  return await response.json()
+  return await fetch(url)
+    .then((response) => response.json())
+    .catch(() => displayError())
 }
 
 function removeSuggestions() {
   $('#origin--suggestions__container').empty()
   $('#destination--suggestions__container').empty()
+}
+
+function displayError() {
+  $(journeyContainer).append(
+    '<p data-i18n="error">Woops! Der opstod en fejl</p>'
+  )
+}
+
+function updateContent(language) {
+  const selector = 'data-i18n'
+  document.querySelectorAll(`[${selector}]`).forEach((element) => {
+    const key = element.getAttribute(selector)
+    element.textContent = language[key]
+  })
+}
+
+async function updateLanguage(language) {
+  const languageMap = {
+    da: './translations/da.json',
+    en: './translations/en.json',
+    de: './translations/de.json',
+  }
+
+  const filePath = languageMap[language]
+
+  fetch(filePath)
+    .then((response) => response.json())
+    .then((langData) => updateContent(langData))
+    .catch((error) => console.error('Error: ' + error))
 }
